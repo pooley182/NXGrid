@@ -2,7 +2,7 @@
 
 Simple CSS Grid framework.
 
-Based on the popular twitter bootstrap but stripped down for my own needs.
+Based on the popular twitter bootstrap but stripped down and re-written for my own needs.
 
 - NXGrid.less uncompiled less with compiling options.
 - NXGrid.css Pre-compiled 16 column framework.
