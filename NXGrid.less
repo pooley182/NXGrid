@@ -1,0 +1,189 @@
+@number-cols: 16;
+@max-width: 960px;
+@col-gutter-width: 10px;
+@base-font-size: 16px;
+@screen-xs: 320px; //Anything up to
+@screen-sm: 480px;
+@screen-md: 640px;
+@screen-lg: 768px;
+@screen-xl: 1024px;
+
+html, body{
+    width: 100%;
+    margin: 0;
+    font-size: @base-font-size;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+.clearfix {
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+.float {
+    float:left;
+}
+
+.container{
+	max-width: @max-width;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: @col-gutter-width;
+	padding-right: @col-gutter-width;
+	&:extend(.clearfix all);
+}
+.container-fluid{
+    width:100%;
+    padding-left: @col-gutter-width;
+	padding-right: @col-gutter-width;
+    &:extend(.clearfix all);
+    
+}
+
+.row{
+    margin-left: -@col-gutter-width;
+    margin-right: -@col-gutter-width;
+    &:extend(.clearfix all);
+}
+
+.col{
+    position: relative;
+    min-height: 1px;
+    padding-left: @col-gutter-width;
+    padding-right: @col-gutter-width;
+}
+
+.generate-columns(xs);
+.generate-columns(sm);
+.generate-columns(md);
+.generate-columns(lg);
+.generate-columns(xl);
+
+.generate-columns(@s, @i: 1) when (@i <= @number-cols) {
+  .col-@{s}-@{i} {
+    &:extend(.col);
+  }
+  .generate-columns(@s, (@i + 1));
+}
+
+.generate-column-floats(xs);
+.generate-column-floats(sm);
+.generate-column-floats(md);
+.generate-column-floats(lg);
+.generate-column-floats(xl);
+
+.generate-column-floats(@s) {
+    @media (min-width:~"@{screen-@{s}}") {
+        .float {
+            float: left;
+        }
+        .float-loop(@c, @ss) when (@c <= @number-cols) {
+            .col-@{ss}-@{c} {
+                &:extend(.float);
+            }
+            .float-loop(@c + 1, @ss);
+        }
+        .float-loop(1, @s);
+    }
+}
+
+.generate-column-widths(xs);
+.generate-column-widths(sm);
+.generate-column-widths(md);
+.generate-column-widths(lg);
+.generate-column-widths(xl);
+
+.generate-column-widths(@s) {
+    @media (min-width:~"@{screen-@{s}}"){
+        .loop();
+        .loop(@i: 1) when (@i <= @number-cols) {
+            .col-@{s}-@{i} {
+                width: (@i * 100% / @number-cols);
+            }
+            .loop(@i + 1);
+        }
+    }
+}
+
+.generate-push-cols(xs);
+.generate-push-cols(sm);
+.generate-push-cols(md);
+.generate-push-cols(lg);
+.generate-push-cols(xl);
+
+.generate-push-cols(@s) {
+    @media (min-width:~"@{screen-@{s}}"){
+        .loop();
+        .loop(@i: 1) when (@i < @number-cols) {
+            .push-@{s}-@{i} {
+                left: (@i * 100% / @number-cols);
+            }
+            .loop(@i + 1);
+        }
+    }
+}
+
+.generate-pull-cols(xs);
+.generate-pull-cols(sm);
+.generate-pull-cols(md);
+.generate-pull-cols(lg);
+.generate-pull-cols(xl);
+
+.generate-pull-cols(@s) {
+    @media (min-width:~"@{screen-@{s}}"){
+        .loop();
+        .loop(@i: 1) when (@i < @number-cols) {
+            .pull-@{s}-@{i} {
+                right: (@i * 100% / @number-cols);
+            }
+            .loop(@i + 1);
+        }
+    }
+}
+
+.generate-offset-cols(xs);
+.generate-offset-cols(sm);
+.generate-offset-cols(md);
+.generate-offset-cols(lg);
+.generate-offset-cols(xl);
+
+.generate-offset-cols(@s) {
+    @media (min-width:~"@{screen-@{s}}"){
+        
+        .loop();
+        .loop(@i: 1) when (@i < @number-cols) {
+            .offset-@{s}-@{i} {
+                margin-left: (@i * 100% / @number-cols);
+            }
+            .loop(@i + 1);
+        }
+    }
+}
+
+.show-grid {
+	margin-bottom: 15px;
+	
+	[class^=col-] {
+	    text-align: center;
+	    background-color: #eee;
+	    border: 1px solid #ddd;
+	    padding-top:8px;
+	    padding-bottom:8px;
+    }
+    
+    .row {
+        [class^=col-] {
+            background-color: #ddd;
+            border-color: #ccc;
+        }
+    }
+}
